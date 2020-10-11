@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const TransactionHistoryComponent = (props) => {
+const TransactionHistoryComponent = ({ transactions }) => {
   return (
     <footer>
       <h3>Transaction history</h3>
@@ -15,10 +15,12 @@ const TransactionHistoryComponent = (props) => {
       </nav>
 
       <ul className="collapsible">
-        <li className="transaction">
-          <div className="description">Cash</div>
-          <div className="amount">-$ 400</div>
-        </li>
+        {transactions.map(({ key, description, amount }) => (
+          <li key={key} className="transaction">
+            <div className="description">{description}</div>
+            <div className="amount">-$ {amount}</div>
+          </li>
+        ))}
       </ul>
     </footer>
   );
