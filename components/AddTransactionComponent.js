@@ -1,34 +1,39 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const AddTransactionComponent = ({ handle }) => {
-  const [fields, setFields] = useState({
-    amount: "",
+const AddTransactionComponent = ({ money, handle }) => {
+  const initialValues = {
+    amount: 0,
     description: "",
     type: "debit",
-  });
+  };
+  const [fields, setFields] = useState(initialValues);
   const submit = (e) => {
     e.preventDefault();
-    if (
-      fields.amount === "" ||
-      fields.amount === 0 ||
-      fields.description === ""
-    ) {
+    // convert to number
+    const amount = Math.abs(+fields.amount);
+
+    if (fields.amount === "" || fields.description === "") {
+      alert("Check empty fields");
+      return;
+    } else if (+fields.amount === 0) {
+      alert("Transaction with amount zero");
+      return;
+    } else if (money < amount && fields.type === "debit") {
+      alert("Not enough money");
       return;
     }
 
-    // apply debit or credit logic
-    fields.amount = Math.abs(fields.amount);
-    if (fields.type === "debit") {
-      fields.amount *= -1;
-    }
-
+    const transaction = {
+      ...fields,
+      amount,
+      date: new Date(),
+    };
     handle({
       type: "ADD_TRANSACTION",
-      payload: { ...fields, date: new Date() },
+      payload: transaction,
     });
-    handle({ type: "TOGGLE_SHOW_ADD_TRANSACTION" });
-    setFields({ amount: "", description: "" });
+    setFields({ ...initialValues, type: transaction.type });
   };
   return (
     <section>
@@ -40,7 +45,7 @@ const AddTransactionComponent = ({ handle }) => {
           type="number"
           placeholder="0.00"
           value={fields.amount}
-          onChange={(e) => setFields({ ...fields, amount: +e.target.value })}
+          onChange={(e) => setFields({ ...fields, amount: e.target.value })}
         />
         <label htmlFor="description">Description</label>
         <input
@@ -54,7 +59,7 @@ const AddTransactionComponent = ({ handle }) => {
         />
         <label>Type</label>
         <div className="checkboxContainer">
-          <label htmlFor="type">Debit</label>
+          <label htmlFor="typeDebit">Debit</label>
           <input
             id="typeDebit"
             name="type"
@@ -80,6 +85,9 @@ const AddTransactionComponent = ({ handle }) => {
   );
 };
 
-AddTransactionComponent.propTypes = {};
+AddTransactionComponent.propTypes = {
+  money: PropTypes.number,
+  handle: PropTypes.func.isRequired,
+};
 
 export default AddTransactionComponent;

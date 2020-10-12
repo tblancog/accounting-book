@@ -11,7 +11,7 @@ const TransactionHistoryComponent = ({ transactions }) => (
             <div className="description">{description}</div>
             <div className="amount">
               <span className={type}>
-                {type === "credit" ? "+" : "-"} ${Math.abs(amount)}
+                {type === "credit" ? "+" : "-"} ${amount.toFixed(2)}
               </span>
             </div>
           </li>

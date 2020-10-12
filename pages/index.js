@@ -12,9 +12,8 @@ import { appReducer, initialState } from "../reducers/AppReducer";
 const pageTitle = "Accounting Book";
 const Home = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
-
   useEffect(() => {
-    dispatch({ type: "GET_TOTAL" });
+    dispatch({ type: "GET_TOTAL_MONEY" });
   }, [state.transactions.length]);
   return (
     <>
@@ -23,11 +22,9 @@ const Home = () => {
       </Head>
       <main className="container">
         <h1>{pageTitle}</h1>
-        <BalanceComponent state={state} handle={dispatch} />
+        <BalanceComponent money={state.money} />
+        <AddTransactionComponent money={state.money} handle={dispatch} />
         <TransactionHistoryComponent transactions={state.transactions} />
-        {state.showAddTransaction && (
-          <AddTransactionComponent handle={dispatch} />
-        )}
       </main>
     </>
   );

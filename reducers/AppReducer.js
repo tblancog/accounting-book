@@ -1,18 +1,17 @@
 export const appReducer = function (state, action) {
   switch (action.type) {
-    case "TOGGLE_SHOW_ADD_TRANSACTION":
-      return { ...state, showAddTransaction: !state.showAddTransaction };
     case "ADD_TRANSACTION":
       const newTransaction = { ...action.payload };
       return {
         ...state,
         transactions: [newTransaction, ...state.transactions],
       };
-    case "GET_TOTAL":
+    case "GET_TOTAL_MONEY":
       return {
         ...state,
         money: state.transactions.reduce(
-          (acum, trans) => (acum += trans.amount),
+          (acum, trans) =>
+            (acum += trans.type === "debit" ? trans.amount * -1 : trans.amount),
           0
         ),
       };
@@ -23,6 +22,5 @@ export const appReducer = function (state, action) {
 
 export const initialState = {
   transactions: [],
-  money: 9000,
-  showAddTransaction: false,
+  money: 0,
 };
