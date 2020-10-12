@@ -16,6 +16,13 @@ const AddTransactionComponent = ({ handle }) => {
     ) {
       return;
     }
+
+    // apply debit or credit logic
+    fields.amount = Math.abs(fields.amount);
+    if (fields.type === "debit") {
+      fields.amount *= -1;
+    }
+
     handle({
       type: "ADD_TRANSACTION",
       payload: { ...fields, date: new Date() },

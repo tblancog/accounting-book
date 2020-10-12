@@ -4,6 +4,8 @@
   --bg-list: #ececec;
   --light-gray: #dedede;
   --dark-gray: #7e7e7e;
+  --credit-green: rgb(0, 105, 0);
+  --debit-red: rgb(177, 35, 35);
 }
 * {
   box-sizing: border-box;
@@ -72,6 +74,9 @@ button.block {
   width: 100%;
   margin-bottom: 15px;
 }
+.checkboxContainer {
+  margin-bottom: 20px;
+}
 button {
   border: none;
   background-color: #6d597a;
@@ -98,4 +103,10 @@ button {
   color: var(--dark-gray);
   border-bottom: 1px solid var(--bg-list);
   padding: 5px 10px;
+}
+.credit {
+  color: var(--credit-green);
+}
+.debit {
+  color: var(--debit-red);
 }
