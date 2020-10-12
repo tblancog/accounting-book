@@ -21,6 +21,28 @@ export const appReducer = function (state, action) {
 };
 
 export const initialState = {
-  transactions: [],
+  transactions: [
+    {
+      id: "1",
+      description: "Lorem",
+      date: new Date(),
+      type: "credit",
+      amount: 6000,
+    },
+    {
+      id: "2",
+      description: "Lorem ipsum",
+      date: new Date(),
+      type: "credit",
+      amount: 8000,
+    },
+    {
+      id: "3",
+      description: "Lorem",
+      date: new Date(),
+      type: "credit",
+      amount: 10000,
+    },
+  ],
   money: 0,
 };

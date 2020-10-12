@@ -26,6 +26,7 @@ const AddTransactionComponent = ({ money, handle }) => {
 
     const transaction = {
       ...fields,
+      id: Math.floor(Math.random() * 100000000).toString(),
       amount,
       date: new Date(),
     };
