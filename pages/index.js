@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useReducer } from "react";
+import { useReducer, useEffect } from "react";
 
 // components
 import BalanceComponent from "../components/BalanceComponent";
@@ -12,6 +12,10 @@ import { appReducer, initialState } from "../reducers/AppReducer";
 const pageTitle = "Accounting Book";
 const Home = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
+
+  useEffect(() => {
+    dispatch({ type: "GET_TOTAL" });
+  }, [state.transactions.length]);
   return (
     <>
       <Head>
@@ -20,8 +24,10 @@ const Home = () => {
       <main className="container">
         <h1>{pageTitle}</h1>
         <BalanceComponent state={state} handle={dispatch} />
-        {state.showAddTransaction && <AddTransactionComponent />}
         <TransactionHistoryComponent transactions={state.transactions} />
+        {state.showAddTransaction && (
+          <AddTransactionComponent handle={dispatch} />
+        )}
       </main>
     </>
   );

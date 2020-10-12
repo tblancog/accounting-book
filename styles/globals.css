@@ -26,6 +26,9 @@ footer h3 {
   border-bottom: 1px solid #dadfeb;
   margin-bottom: 0;
 }
+footer h4 {
+  color: var(--dark-gray);
+}
 .container {
   background-color: #fff;
   max-width: 375px;
@@ -58,10 +61,6 @@ li {
   font-size: 12px;
   font-weight: bold;
 }
-label small {
-  font-size: 9px;
-  color: var(--dark-gray);
-}
 input[type="text"],
 input[type="number"],
 button.block {
@@ -81,12 +80,11 @@ button {
   cursor: pointer;
   text-transform: uppercase;
 }
-.tabControl ul {
+.tabControl .list {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
 }
-.tabControl ul li,
 .transaction {
   cursor: pointer;
 }
