@@ -28,13 +28,26 @@ const AddTransactionComponent = ({ money, handle }) => {
       ...fields,
       id: Math.floor(Math.random() * 100000000).toString(),
       amount,
-      date: new Date(),
+      date: new Date().toLocaleDateString("en-US"),
     };
-    handle({
-      type: "ADD_TRANSACTION",
-      payload: transaction,
-    });
+    postTransaction(transaction)
+      .then((_) => {
+        handle({
+          type: "ADD_TRANSACTION",
+          payload: transaction,
+        });
+      })
+      .catch((err) => alert(err));
+
     setFields({ ...initialValues, type: transaction.type });
+  };
+
+  const postTransaction = async (data) => {
+    const res = await fetch("http://localhost:3001/api/transactions", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    return res.status;
   };
   return (
     <section>

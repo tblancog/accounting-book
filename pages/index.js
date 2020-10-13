@@ -1,32 +1,13 @@
-import Head from "next/head";
-import { useReducer, useEffect } from "react";
+import AppComponent from "../components/AppComponent";
+const HomePage = (props) => <AppComponent {...props} />;
+export default HomePage;
 
-// components
-import BalanceComponent from "../components/BalanceComponent";
-import AddTransactionComponent from "../components/AddTransactionComponent";
-import TransactionHistoryComponent from "../components/TransactionHistoryComponent";
-
-// Reducers
-import { appReducer, initialState } from "../reducers/AppReducer";
-
-const pageTitle = "Accounting Book";
-const Home = () => {
-  const [state, dispatch] = useReducer(appReducer, initialState);
-  useEffect(() => {
-    dispatch({ type: "GET_TOTAL_MONEY" });
-  }, [state.transactions.length]);
-  return (
-    <>
-      <Head>
-        <title>{pageTitle}</title>
-      </Head>
-      <main className="container">
-        <h1>{pageTitle}</h1>
-        <BalanceComponent money={state.money} />
-        <AddTransactionComponent money={state.money} handle={dispatch} />
-        <TransactionHistoryComponent transactions={state.transactions} />
-      </main>
-    </>
-  );
-};
-export default Home;
+export async function getServerSideProps() {
+  const res = await fetch("http://localhost:3001/api/transactions");
+  const transactions = await res.json();
+  return {
+    props: {
+      transactions,
+    },
+  };
+}

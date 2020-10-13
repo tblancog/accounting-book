@@ -1,5 +1,10 @@
 export const appReducer = function (state, action) {
   switch (action.type) {
+    case "GET_TRANSACTIONS_HISTORY":
+      return {
+        ...state,
+        transactions: action.payload,
+      };
     case "ADD_TRANSACTION":
       const newTransaction = { ...action.payload };
       return {
@@ -9,6 +14,7 @@ export const appReducer = function (state, action) {
     case "GET_TOTAL_MONEY":
       return {
         ...state,
+        // money: action.payload,
         money: state.transactions.reduce(
           (acum, trans) =>
             (acum += trans.type === "debit" ? trans.amount * -1 : trans.amount),
@@ -21,28 +27,6 @@ export const appReducer = function (state, action) {
 };
 
 export const initialState = {
-  transactions: [
-    {
-      id: "1",
-      description: "Lorem",
-      date: new Date(),
-      type: "credit",
-      amount: 6000,
-    },
-    {
-      id: "2",
-      description: "Lorem ipsum",
-      date: new Date(),
-      type: "credit",
-      amount: 8000,
-    },
-    {
-      id: "3",
-      description: "Lorem",
-      date: new Date(),
-      type: "credit",
-      amount: 10000,
-    },
-  ],
+  transactions: [],
   money: 0,
 };

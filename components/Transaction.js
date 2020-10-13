@@ -7,7 +7,6 @@ const Transaction = ({
   const [expanded, setExpanded] = useState("");
   return (
     <li
-      key={id}
       className="transaction"
       onClick={() => setExpanded(expanded === id ? "" : id)}
     >
@@ -19,7 +18,7 @@ const Transaction = ({
               Amount: $ <span className={type}>{amount.toFixed(2)}</span>
             </li>
             <li>Type: {type}</li>
-            <li>Date: {date.toLocaleDateString("en-US")}</li>
+            <li>Date: {date}</li>
             <li>Transaction ID: {id}</li>
           </ul>
         </>
@@ -40,8 +39,8 @@ const Transaction = ({
 Transaction.propTypes = {
   transaction: PropTypes.shape({
     id: PropTypes.string,
-    date: PropTypes.object,
-    description: PropTypes.date,
+    date: PropTypes.string,
+    description: PropTypes.string,
     type: PropTypes.oneOf(["credit", "debit"]),
     amount: PropTypes.number,
   }),
