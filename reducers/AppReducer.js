@@ -6,20 +6,19 @@ export const appReducer = function (state, action) {
         transactions: action.payload,
       };
     case "ADD_TRANSACTION":
-      const newTransaction = { ...action.payload };
       return {
         ...state,
-        transactions: [newTransaction, ...state.transactions],
+        transactions: [action.payload, ...state.transactions],
       };
     case "GET_TOTAL_MONEY":
       return {
         ...state,
-        // money: action.payload,
-        money: state.transactions.reduce(
-          (acum, trans) =>
-            (acum += trans.type === "debit" ? trans.amount * -1 : trans.amount),
-          0
-        ),
+        money: action.payload,
+      };
+    case "GET_TRANSACTION_DETAILS":
+      return {
+        ...state,
+        currentTransaction: action.payload,
       };
     default:
       return state;
@@ -29,4 +28,5 @@ export const appReducer = function (state, action) {
 export const initialState = {
   transactions: [],
   money: 0,
+  currentTransaction: {},
 };

@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
+
+import { apiCall } from "../services/";
 
 const AddTransactionComponent = ({ money, handle }) => {
   const initialValues = {
@@ -8,6 +10,7 @@ const AddTransactionComponent = ({ money, handle }) => {
     type: "debit",
   };
   const [fields, setFields] = useState(initialValues);
+
   const submit = (e) => {
     e.preventDefault();
     // convert to number
@@ -26,29 +29,23 @@ const AddTransactionComponent = ({ money, handle }) => {
 
     const transaction = {
       ...fields,
-      id: Math.floor(Math.random() * 100000000).toString(),
       amount,
-      date: new Date().toLocaleDateString("en-US"),
     };
-    postTransaction(transaction)
-      .then((_) => {
-        handle({
-          type: "ADD_TRANSACTION",
-          payload: transaction,
-        });
+    apiCall("/api/transactions", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(transaction),
+    })
+      .then((data) => {
+        handle({ type: "ADD_TRANSACTION", payload: data });
       })
       .catch((err) => alert(err));
-
     setFields({ ...initialValues, type: transaction.type });
   };
 
-  const postTransaction = async (data) => {
-    const res = await fetch("http://localhost:3001/api/transactions", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    return res.status;
-  };
   return (
     <section>
       <h3>Add Transaction</h3>

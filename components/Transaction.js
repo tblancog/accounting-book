@@ -1,25 +1,33 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const Transaction = ({
-  transaction: { id, type, amount, description, date },
-}) => {
+import { apiCall } from "../services/";
+
+const Transaction = ({ transaction: { id, type, amount, description } }) => {
   const [expanded, setExpanded] = useState("");
+  const [detail, setDetail] = useState(false);
+
+  const toggleExpanded = () => {
+    setExpanded(expanded === id ? "" : id);
+    if (expanded === "" && detail.id !== id) {
+      apiCall(`/api/transactions/${id}`).then((transaction) =>
+        setDetail(transaction)
+      );
+    }
+  };
   return (
-    <li
-      className="transaction"
-      onClick={() => setExpanded(expanded === id ? "" : id)}
-    >
-      {expanded === id ? (
+    <li className="transaction" onClick={() => toggleExpanded()}>
+      {expanded === id && detail ? (
         <>
           <ul>
-            <li>Description: {description}</li>
+            <li>Description: {detail.description}</li>
             <li>
-              Amount: $ <span className={type}>{amount.toFixed(2)}</span>
+              Amount: ${" "}
+              <span className={detail.type}>{detail.amount.toFixed(2)}</span>
             </li>
-            <li>Type: {type}</li>
-            <li>Date: {date}</li>
-            <li>Transaction ID: {id}</li>
+            <li>Type: {detail.type}</li>
+            <li>Date: {detail.effectiveDate}</li>
+            <li>Transaction ID: {detail.id}</li>
           </ul>
         </>
       ) : (
@@ -39,10 +47,9 @@ const Transaction = ({
 Transaction.propTypes = {
   transaction: PropTypes.shape({
     id: PropTypes.string,
-    date: PropTypes.string,
-    description: PropTypes.string,
     type: PropTypes.oneOf(["credit", "debit"]),
     amount: PropTypes.number,
+    description: PropTypes.string,
   }),
 };
 

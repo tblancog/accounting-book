@@ -11,10 +11,9 @@ import TransactionHistoryComponent from "../components/TransactionHistoryCompone
 // Reducers
 import { appReducer, initialState } from "../reducers/AppReducer";
 
-import { getTotalMoney } from "../services/services";
+import { apiCall } from "../services/";
 
 const pageTitle = "Accounting Book";
-
 const AppComponent = ({ transactions }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
@@ -24,7 +23,9 @@ const AppComponent = ({ transactions }) => {
   );
 
   useEffect(() => {
-    dispatch({ type: "GET_TOTAL_MONEY" });
+    apiCall("/api/transactions/balance").then(({ money }) => {
+      dispatch({ type: "GET_TOTAL_MONEY", payload: money });
+    });
   }, [state.transactions.length]);
   return (
     <>
@@ -33,18 +34,18 @@ const AppComponent = ({ transactions }) => {
       </Head>
       <main className="container">
         <h1>{pageTitle}</h1>
-        {transactions && (
-          <>
-            <BalanceComponent money={state.money} />
-            <AddTransactionComponent money={state.money} handle={dispatch} />
-            <TransactionHistoryComponent transactions={state.transactions} />
-          </>
-        )}
+        <>
+          <BalanceComponent money={state.money} />
+          <AddTransactionComponent money={state.money} handle={dispatch} />
+          <TransactionHistoryComponent transactions={state.transactions} />
+        </>
       </main>
     </>
   );
 };
 
-AppComponent.propTypes = {};
+AppComponent.propTypes = {
+  transactions: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default AppComponent;
