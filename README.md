@@ -1,30 +1,31 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Accounting Book
 
-## Getting Started
+Accounting Book is a challenge app made with NextJS on top of React and NodeJS as backend. It exposes a SPA and api with four endpoints.
 
-First, run the development server:
+## Installation
+
+Use npm to build and serve the app in the default port of 3001.
 
 ```bash
-npm run dev
-# or
-yarn dev
+npm run build
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Point your browser to http://localhost:3001 for frontend and for backend use a tool like POSTMAN to hit api endpoints:
 
-## Learn More
+- Get transactions:
+  `GET http://localhost:3001/api/transactions`
+- Commit transactions:
+  `POST http://localhost:3001/api/transactions { "amount": 4000, "description": "Earnings", "type": "credit" } `
 
-To learn more about Next.js, take a look at the following resources:
+- Get transaction by id:
+  `GET http://localhost:3001/api/transactions/:id`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Get balance:
+  `GET http://localhost:3001/api/transactions/balance`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[MIT](https://choosealicense.com/licenses/mit/)
